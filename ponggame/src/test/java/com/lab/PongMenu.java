@@ -20,31 +20,26 @@ public class PongMenu extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // ✅ โหลดภาพจาก resources/
-        String imagePath = "/background.jpg"; // รูปต้องอยู่ใน resources/
-        JPanel menuPanel = new BackgroundPanel(imagePath);
+        // โหลดภาพพื้นหลัง
+        JPanel menuPanel = new BackgroundPanel("/background.jpg");
         menuPanel.setLayout(new GridBagLayout());
 
-        pongGame = new PongGame();
         mainPanel.add(menuPanel, "Menu");
-        mainPanel.add(pongGame, "Game");
-
+        add(mainPanel);
+        
         player1NameField = new JTextField("Player 1", 15);
         player2NameField = new JTextField("Player 2", 15);
-
-        // ตั้งฟอนต์ให้รองรับภาษาไทย
-        Font thaiFont = new Font("Tahoma", Font.PLAIN, 18); // หรือเลือกฟอนต์อื่นที่รองรับภาษาไทย
+        
+        Font thaiFont = new Font("Tahoma", Font.PLAIN, 18);
         player1NameField.setFont(thaiFont);
         player2NameField.setFont(thaiFont);
 
-        // ✅ ปุ่มเล่นเกม
         JButton singlePlayerButton = createStyledButton("Single Player");
         singlePlayerButton.addActionListener(e -> startGame(true));
 
         JButton multiplayerButton = createStyledButton("Multiplayer");
         multiplayerButton.addActionListener(e -> startGame(false));
 
-        // ✅ จัดปุ่มให้อยู่ตรงกลาง
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -55,18 +50,15 @@ public class PongMenu extends JFrame {
         buttonPanel.add(Box.createVerticalStrut(20));
         buttonPanel.add(multiplayerButton);
 
-        // ซ่อนช่องกรอกชื่อ
         player1NameField.setVisible(false);
         player2NameField.setVisible(false);
 
-        // ✅ ใช้ GridBagLayout เพื่อจัดปุ่มไว้กลางจอ
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 0, 10, 0);
         gbc.gridx = 0;
         gbc.gridy = 0;
         menuPanel.add(buttonPanel, gbc);
 
-        add(mainPanel);
         setVisible(true);
     }
 
@@ -88,7 +80,6 @@ public class PongMenu extends JFrame {
                 button.setBackground(new Color(50, 50, 50));
             }
         });
-
         return button;
     }
 
@@ -105,19 +96,26 @@ public class PongMenu extends JFrame {
         }
 
         JOptionPane.showMessageDialog(this, "Starting " + (isSinglePlayer ? "Single Player" : "Multiplayer") + " mode... 🚀");
+
+        if (pongGame != null) {
+            mainPanel.remove(pongGame);
+        }
+        pongGame = new PongGame();
         pongGame.setSinglePlayer(isSinglePlayer);
         pongGame.setPlayerNames(player1Name, player2Name);
+
+        mainPanel.add(pongGame, "Game");
         cardLayout.show(mainPanel, "Game");
+        mainPanel.revalidate();
+        mainPanel.repaint();
         pongGame.start();
     }
 
-    // ✅ คลาสสำหรับแสดงภาพพื้นหลังจาก resources/
     class BackgroundPanel extends JPanel {
         private Image backgroundImage;
 
         public BackgroundPanel(String filePath) {
             try {
-                // โหลดภาพจาก resources โดยใช้ getResource
                 backgroundImage = new ImageIcon(getClass().getResource(filePath)).getImage();
             } catch (Exception e) {
                 System.out.println("❌ Error loading background image: " + e.getMessage());

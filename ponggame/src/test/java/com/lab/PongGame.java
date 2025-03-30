@@ -94,14 +94,14 @@ public class PongGame extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (gameOver) {
             long currentTime = System.currentTimeMillis();
-            if (currentTime - gameOverTime >= 15000) {  // 15 วินาทีหลังจากเกมจบ
+            if (currentTime - gameOverTime >= 5000) {  // 15 วินาทีหลังจากเกมจบ
                 // แสดงกล่องข้อความให้เลือกว่าจะเล่นใหม่หรือไม่
-                int option = JOptionPane.showConfirmDialog(this, "เกมจบ! ต้องการเล่นใหม่ไหม?", "Game Over", JOptionPane.YES_NO_OPTION);
+                int option = JOptionPane.showConfirmDialog(this, "END", "Game Over", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
                     resetGame();  // รีเซ็ตเกมและเริ่มเกมใหม่
                 } else if (option == JOptionPane.NO_OPTION) {
                     // กด "No" รีเซ็ตเกมและกลับไปที่หน้าเลือกโหมดการเล่น
-                    int modeOption = JOptionPane.showOptionDialog(this, "เลือกโหมดการเล่น", "Select Mode",
+                    int modeOption = JOptionPane.showOptionDialog(this, "Mode", "Select Mode",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
                             new String[] {"Single Player", "Two Player"}, "Single Player");
 
