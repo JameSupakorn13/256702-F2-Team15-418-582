@@ -117,6 +117,7 @@ public class PongMenu extends JFrame {
 
         public BackgroundPanel(String filePath) {
             try {
+                // โหลดภาพจาก resources โดยใช้ getResource
                 backgroundImage = new ImageIcon(getClass().getResource(filePath)).getImage();
             } catch (Exception e) {
                 System.out.println("❌ Error loading background image: " + e.getMessage());
