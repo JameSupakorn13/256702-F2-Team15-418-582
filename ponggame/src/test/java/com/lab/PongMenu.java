@@ -20,7 +20,6 @@ public class PongMenu extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // โหลดภาพพื้นหลัง
         JPanel menuPanel = new BackgroundPanel("/background.jpg");
         menuPanel.setLayout(new GridBagLayout());
 
@@ -39,6 +38,9 @@ public class PongMenu extends JFrame {
 
         JButton multiplayerButton = createStyledButton("Multiplayer");
         multiplayerButton.addActionListener(e -> startGame(false));
+        
+        JButton howToPlayButton = createStyledButton("How to Play");
+        howToPlayButton.addActionListener(e -> showHowToPlay());
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
@@ -49,6 +51,8 @@ public class PongMenu extends JFrame {
         buttonPanel.add(singlePlayerButton);
         buttonPanel.add(Box.createVerticalStrut(20));
         buttonPanel.add(multiplayerButton);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(howToPlayButton);
 
         player1NameField.setVisible(false);
         player2NameField.setVisible(false);
@@ -109,6 +113,24 @@ public class PongMenu extends JFrame {
         mainPanel.revalidate();
         mainPanel.repaint();
         pongGame.start();
+    }
+
+    private void showHowToPlay() {
+        JTextArea textArea = new JTextArea("\n    - How to Play -\n\n"
+                + ": Player 1: Use W/S to move up and down.\n"
+                + ": Player 2: Use Up/Down arrows to move.\n"
+                + ": Score points by getting the ball past your opponent.\n"
+                + ": The first player to reach the target score wins!\n\n"
+                + ": enjoy the game! ");
+        textArea.setFont(new Font("Arial", Font.BOLD, 16));
+        textArea.setEditable(false);
+        textArea.setBackground(new Color(240, 240, 240));
+        textArea.setMargin(new Insets(10, 10, 10, 10));
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(400, 200));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "How to Play", JOptionPane.INFORMATION_MESSAGE);
     }
 
     class BackgroundPanel extends JPanel {
